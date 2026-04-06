@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Streaming List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #000; color: white; font-family: sans-serif; }
+        .card { 
+            background: #111; 
+            border: 2px solid #222; 
+            transition: all 0.3s;
+        }
+        .card:hover { border-color: #a855f7; transform: scale(1.05); }
+        .filter-btn.active { background-color: #a855f7; color: white; }
+    </style>
+</head>
+<body class="p-6">
+
+    <header class="text-center mb-8">
+        <h1 class="text-3xl font-bold mb-2">My List! 🍟</h1>
+        <div class="flex gap-2 justify-center flex-wrap" id="filter-container">
+            <button class="filter-btn active px-4 py-1 rounded-full border border-gray-700 text-sm" onclick="filter('all')">All</button>
+            <button class="filter-btn px-4 py-1 rounded-full border border-gray-700 text-sm" onclick="filter('anime')">Anime</button>
+            <button class="filter-btn px-4 py-1 rounded-full border border-gray-700 text-sm" onclick="filter('movies')">Movies</button>
+        </div>
+    </header>
+
+    <div class="grid grid-cols-2 gap-4" id="links-grid">
+        <div class="card p-6 rounded-2xl text-center" data-category="movies">
+            <span class="font-bold text-lg">1Shows</span>
+        </div>
+        <div class="card p-6 rounded-2xl text-center" data-category="anime">
+            <span class="font-bold text-lg">AniWatch</span>
+        </div>
+    </div>
+
+    <script>
+        function filter(category) {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            // Logic to update active button style goes here
+        }
+    </script>
+</body>
+</html>
