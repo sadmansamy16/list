@@ -6,7 +6,7 @@
     <title>My List</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         
         body { 
             background-color: #000000; 
@@ -15,90 +15,98 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* The Card Border & Glow */
+        /* Card - Narrower height to match screenshot */
         .card { 
-            background: #0f0f0f; 
+            background: #111111; 
             border: 1px solid #1a1a1a; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            aspect-ratio: 1 / 1;
+            height: 110px; /* Specific height for better proportions */
         }
 
-        /* Purple Glow Effect on Hover/Active */
-        .card:active, .card:hover { 
+        /* Clicked/Active State - Turns Purple like 1Shows */
+        .card:active, .card.visited-style { 
+            background: #2e224a; /* Dark purple tint */
             border-color: #a855f7; 
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
-            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
         }
 
-        /* Active Filter Button Glow */
+        /* Filter Button - Smaller text */
+        .filter-btn {
+            background-color: #161616;
+            border: 1px solid #222;
+            color: #888;
+            font-size: 11px; /* Smaller text size */
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
         .filter-btn.active { 
-            background-color: #a855f7 !important; 
-            border-color: #a855f7 !important;
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.6);
-            color: white !important;
+            background-color: #a855f7; 
+            border-color: #a855f7; 
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
+            color: white;
         }
-
-        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="p-4">
 
-    <header class="text-center mb-8 pt-4">
-        <h1 class="text-2xl font-bold mb-6">My List! 🍟</h1>
+    <header class="text-center mb-6 pt-2">
+        <h1 class="text-xl font-bold mb-4">My List! 🍟</h1>
         
-        <div class="px-2 mb-6">
-            <input type="text" id="searchInput" onkeyup="search() " placeholder="Search for sites..." 
-                   class="w-full bg-[#0a0a0a] border border-zinc-800 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-purple-500 transition-all text-zinc-300">
+        <div class="px-2 mb-5">
+            <input type="text" id="searchInput" onkeyup="search()" placeholder="Search for sites..." 
+                   class="w-full bg-[#0d0d0d] border border-zinc-800 rounded-2xl py-3 px-5 text-xs focus:outline-none focus:border-purple-500 text-zinc-400">
         </div>
 
-        <div class="flex flex-wrap gap-2 justify-center px-2" id="filter-container">
-            <button class="filter-btn active px-5 py-2 rounded-full border border-zinc-800 text-xs font-semibold bg-zinc-900 text-zinc-400" onclick="filterSelection('all', this)">All</button>
-            <button class="filter-btn px-5 py-2 rounded-full border border-zinc-800 text-xs font-semibold bg-zinc-900 text-zinc-400" onclick="filterSelection('favourite', this)">Favourite</button>
-            <button class="filter-btn px-5 py-2 rounded-full border border-zinc-800 text-xs font-semibold bg-zinc-900 text-zinc-400" onclick="filterSelection('tools', this)">Tools</button>
-            <button class="filter-btn px-5 py-2 rounded-full border border-zinc-800 text-xs font-semibold bg-zinc-900 text-zinc-400" onclick="filterSelection('media', this)">Anime & Movies</button>
-            <button class="filter-btn px-5 py-2 rounded-full border border-zinc-800 text-xs font-semibold bg-zinc-900 text-zinc-400" onclick="filterSelection('bank', this)">Bank</button>
-            <button class="filter-btn px-5 py-2 rounded-full border border-zinc-800 text-xs font-semibold bg-zinc-900 text-zinc-400" onclick="filterSelection('sim', this)">SIM</button>
-            <button class="filter-btn px-5 py-2 rounded-full border border-zinc-800 text-xs font-semibold bg-zinc-900 text-zinc-400" onclick="filterSelection('official', this)">Official</button>
+        <div class="flex flex-wrap gap-1.5 justify-center px-1" id="filter-container">
+            <button class="filter-btn active" onclick="filterSelection('all', this)">All</button>
+            <button class="filter-btn" onclick="filterSelection('favourite', this)">Favourite</button>
+            <button class="filter-btn" onclick="filterSelection('tools', this)">Tools</button>
+            <button class="filter-btn" onclick="filterSelection('media', this)">Anime & Movies</button>
+            <button class="filter-btn" onclick="filterSelection('bank', this)">Bank</button>
+            <button class="filter-btn" onclick="filterSelection('sim', this)">SIM</button>
+            <button class="filter-btn" onclick="filterSelection('official', this)">Official</button>
         </div>
     </header>
 
-    <div class="grid grid-cols-2 gap-4 px-2" id="links-grid">
+    <div class="grid grid-cols-2 gap-3 px-1" id="links-grid">
         
-        <a href="#" class="card p-4 rounded-3xl" data-category="bank">
-            <img src="https://itubabd.com/wp-content/uploads/2022/12/bkash-logo.png" alt="bKash" class="w-12 h-12 mb-2 object-contain">
-            <span class="text-sm font-bold">bKash</span>
+        <a href="https://bkash.com" target="_blank" class="card rounded-2xl" data-category="bank" onclick="markVisited(this)">
+            <img src="https://itubabd.com/wp-content/uploads/2022/12/bkash-logo.png" alt="" class="w-10 h-10 mb-2 object-contain">
+            <span class="text-[11px] font-bold">bKash</span>
         </a>
 
-        <a href="#" class="card p-4 rounded-3xl" data-category="media">
-            <div class="w-12 h-12 mb-2 flex items-center justify-center bg-purple-900/20 rounded-xl text-purple-500 font-bold text-xl">A</div>
-            <span class="text-sm font-bold">AniWatch</span>
+        <a href="#" class="card rounded-2xl" data-category="media" onclick="markVisited(this)">
+            <div class="w-10 h-10 mb-2 flex items-center justify-center bg-purple-900/20 rounded-xl text-purple-400 font-bold text-lg">A</div>
+            <span class="text-[11px] font-bold">AniWatch</span>
         </a>
 
-        <a href="#" class="card p-4 rounded-3xl" data-category="favourite">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_2023.png" alt="FB" class="w-10 h-10 mb-2 object-contain">
-            <span class="text-sm font-bold text-white">Facebook</span>
-        </a>
-
-        <a href="#" class="card p-4 rounded-3xl" data-category="sim">
-            <div class="w-12 h-12 mb-2 flex items-center justify-center bg-blue-900/20 rounded-xl text-blue-500 font-bold text-xl">GP</div>
-            <span class="text-sm font-bold">MyGP</span>
+        <a href="#" class="card rounded-2xl" data-category="favourite" onclick="markVisited(this)">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_2023.png" alt="" class="w-9 h-9 mb-2 object-contain">
+            <span class="text-[11px] font-bold">Facebook</span>
         </a>
 
     </div>
 
     <script>
-        // Filtering Logic
+        // Toggle visited style when clicked
+        function markVisited(el) {
+            // Removes style from others and adds to clicked one
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('visited-style'));
+            el.classList.add('visited-style');
+        }
+
         function filterSelection(category, btn) {
             const cards = document.querySelectorAll('.card');
             const buttons = document.querySelectorAll('.filter-btn');
-
             buttons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-
             cards.forEach(card => {
                 if (category === 'all' || card.getAttribute('data-category') === category) {
                     card.style.display = 'flex';
@@ -108,18 +116,12 @@
             });
         }
 
-        // Search Logic
         function search() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             let cards = document.querySelectorAll('.card');
-            
             cards.forEach(card => {
                 let name = card.innerText.toLowerCase();
-                if (name.includes(input)) {
-                    card.style.display = "flex";
-                } else {
-                    card.style.display = "none";
-                }
+                card.style.display = name.includes(input) ? "flex" : "none";
             });
         }
     </script>
