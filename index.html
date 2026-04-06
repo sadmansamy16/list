@@ -6,75 +6,119 @@
     <title>My List</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #000; color: white; font-family: sans-serif; }
-        .card { 
-            background: #121212; 
-            border: 1px solid #222; 
-            transition: all 0.2s;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        body { 
+            background-color: #000000; 
+            color: white; 
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
-        /* Glow effect like the screenshot */
-        .card:hover { border-color: #a855f7; box-shadow: 0 0 15px rgba(168, 85, 247, 0.2); }
-        .filter-btn.active { background-color: #a855f7; border-color: #a855f7; }
+
+        /* The Card Border & Glow */
+        .card { 
+            background: #0f0f0f; 
+            border: 1px solid #1a1a1a; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1 / 1;
+        }
+
+        /* Purple Glow Effect on Hover/Active */
+        .card:active, .card:hover { 
+            border-color: #a855f7; 
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+            transform: scale(1.02);
+        }
+
+        /* Active Filter Button Glow */
+        .filter-btn.active { 
+            background-color: #a855f7 !important; 
+            border-color: #a855f7 !important;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.6);
+            color: white !important;
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="p-4">
 
-  <header class="text-center mb-6">
-    <h1 class="text-2xl font-bold mb-4">My List! 🍟</h1>
-    
-    <div class="px-2 mb-6">
-        <input type="text" id="searchInput" placeholder="Search for sites..." 
-               class="w-full bg-[#0a0a0a] border border-gray-800 rounded-full py-3 px-6 text-sm focus:outline-none focus:border-purple-500 transition-all">
-    </div>
+    <header class="text-center mb-8 pt-4">
+        <h1 class="text-2xl font-bold mb-6">My List! 🍟</h1>
+        
+        <div class="px-2 mb-6">
+            <input type="text" id="searchInput" onkeyup="search() " placeholder="Search for sites..." 
+                   class="w-full bg-[#0a0a0a] border border-zinc-800 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-purple-500 transition-all text-zinc-300">
+        </div>
 
-    <div class="flex flex-wrap gap-2 justify-center px-2" id="filter-container">
-        <button class="filter-btn active px-4 py-1.5 rounded-full border border-gray-800 text-xs font-medium bg-zinc-900/50" onclick="filterSelection('all', this)">All</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full border border-gray-800 text-xs font-medium bg-zinc-900/50" onclick="filterSelection('popular', this)">Popular</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full border border-gray-800 text-xs font-medium bg-zinc-900/50" onclick="filterSelection('tools', this)">Tools</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full border border-gray-800 text-xs font-medium bg-zinc-900/50" onclick="filterSelection('media', this)">Media</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full border border-gray-800 text-xs font-medium bg-zinc-900/50" onclick="filterSelection('bank', this)">Bank</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full border border-gray-800 text-xs font-medium bg-zinc-900/50" onclick="filterSelection('sim', this)">SIM</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full border border-gray-800 text-xs font-medium bg-zinc-900/50" onclick="filterSelection('official', this)">Official</button>
-    </div>
-</header>
+        <div class="flex flex-wrap gap-2 justify-center px-2" id="filter-container">
+            <button class="filter-btn active px-5 py-2 rounded-full border border-zinc-800 text-xs font-semibold bg-zinc-900 text-zinc-400" onclick="filterSelection('all', this)">All</button>
+            <button class="filter-btn px-5 py-2 rounded-full border border-zinc-800 text-xs font-semibold bg-zinc-900 text-zinc-400" onclick="filterSelection('favourite', this)">Favourite</button>
+            <button class="filter-btn px-5 py-2 rounded-full border border-zinc-800 text-xs font-semibold bg-zinc-900 text-zinc-400" onclick="filterSelection('tools', this)">Tools</button>
+            <button class="filter-btn px-5 py-2 rounded-full border border-zinc-800 text-xs font-semibold bg-zinc-900 text-zinc-400" onclick="filterSelection('media', this)">Anime & Movies</button>
+            <button class="filter-btn px-5 py-2 rounded-full border border-zinc-800 text-xs font-semibold bg-zinc-900 text-zinc-400" onclick="filterSelection('bank', this)">Bank</button>
+            <button class="filter-btn px-5 py-2 rounded-full border border-zinc-800 text-xs font-semibold bg-zinc-900 text-zinc-400" onclick="filterSelection('sim', this)">SIM</button>
+            <button class="filter-btn px-5 py-2 rounded-full border border-zinc-800 text-xs font-semibold bg-zinc-900 text-zinc-400" onclick="filterSelection('official', this)">Official</button>
+        </div>
+    </header>
 
-    <div class="grid grid-cols-2 gap-3" id="links-grid">
-        <div class="card p-5 rounded-xl text-center" data-category="media">
-            <span class="block font-medium">1Shows</span>
-        </div>
-        <div class="card p-5 rounded-xl text-center" data-category="media">
-            <span class="block font-medium">AniWatch</span>
-        </div>
-        <div class="card p-5 rounded-xl text-center" data-category="bank">
-            <span class="block font-medium">bKash</span>
-        </div>
-        <div class="card p-5 rounded-xl text-center" data-category="sim">
-            <span class="block font-medium">MyGP</span>
-        </div>
-        <div class="card p-5 rounded-xl text-center" data-category="popular">
-            <span class="block font-medium">Facebook</span>
-        </div>
+    <div class="grid grid-cols-2 gap-4 px-2" id="links-grid">
+        
+        <a href="#" class="card p-4 rounded-3xl" data-category="bank">
+            <img src="https://itubabd.com/wp-content/uploads/2022/12/bkash-logo.png" alt="bKash" class="w-12 h-12 mb-2 object-contain">
+            <span class="text-sm font-bold">bKash</span>
+        </a>
+
+        <a href="#" class="card p-4 rounded-3xl" data-category="media">
+            <div class="w-12 h-12 mb-2 flex items-center justify-center bg-purple-900/20 rounded-xl text-purple-500 font-bold text-xl">A</div>
+            <span class="text-sm font-bold">AniWatch</span>
+        </a>
+
+        <a href="#" class="card p-4 rounded-3xl" data-category="favourite">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_2023.png" alt="FB" class="w-10 h-10 mb-2 object-contain">
+            <span class="text-sm font-bold text-white">Facebook</span>
+        </a>
+
+        <a href="#" class="card p-4 rounded-3xl" data-category="sim">
+            <div class="w-12 h-12 mb-2 flex items-center justify-center bg-blue-900/20 rounded-xl text-blue-500 font-bold text-xl">GP</div>
+            <span class="text-sm font-bold">MyGP</span>
+        </a>
+
     </div>
 
     <script>
+        // Filtering Logic
         function filterSelection(category, btn) {
             const cards = document.querySelectorAll('.card');
             const buttons = document.querySelectorAll('.filter-btn');
 
-            // Update button UI
             buttons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            // Filter logic
             cards.forEach(card => {
-                if (category === 'all') {
-                    card.classList.remove('hidden');
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
                 } else {
-                    if (card.getAttribute('data-category') === category) {
-                        card.classList.remove('hidden');
-                    } else {
-                        card.classList.add('hidden');
-                    }
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Search Logic
+        function search() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                let name = card.innerText.toLowerCase();
+                if (name.includes(input)) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
                 }
             });
         }
